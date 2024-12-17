@@ -1,0 +1,51 @@
+.para {
+    max-width: 1000px;
+    padding: 20px;
+    border: 2px solid grey;
+    border-radius: 20px;
+    background-color: rgba(128, 128, 128, 0.5);
+}
+
+.para h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: rgb(100, 181, 246);
+    -webkit-text-stroke: 2px black;
+}
+
+
+.para p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.home {
+  margin-top: 12%;
+  display: flex;
+  text-align: justify;
+  justify-content: right;
+  align-items: center;
+  padding: 20px;
+}
+
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+.content {
+  position: relative;
+  z-index: 1;
+  color: white;
+  padding: 20px;
+}
+
+i {
+  font-size: 35px;
+}
