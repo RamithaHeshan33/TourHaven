@@ -1,0 +1,82 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form {
+    width: 500px;
+    padding: 30px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+.form-group label {
+    display: block;
+    text-align: left;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+.form-group input {
+    width: 93%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.form-group input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+.form-group button {
+    width: 100%;
+    padding: 0.75rem;
+    background: #007bff;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.form-group button:hover {
+    background: #0056b3;
+}
+
+.btn-image {
+    width: 10px;
+}
+
+.gbtn {
+    padding: 10px 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.gbtn:hover {
+    background-color: #d3e2f3;
+    transition: 500ms;
+}
+
+.message {
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: bold;
+    color: #d9534f;
+}
+.success {
+    color: #5cb85c;
+}

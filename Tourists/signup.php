@@ -5,6 +5,8 @@ session_start();
 $name = isset($_SESSION['google_name']) ? $_SESSION['google_name'] : '';
 $email = isset($_SESSION['google_email']) ? $_SESSION['google_email'] : '';
 $phone = isset($_SESSION['google_phone']) ? $_SESSION['google_phone'] : '';
+
+$message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
 ?>
 
 <!DOCTYPE html>
@@ -12,24 +14,43 @@ $phone = isset($_SESSION['google_phone']) ? $_SESSION['google_phone'] : '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - TourHaven</title>
+    <title>TourHaven</title>
+    <link rel="shortcut icon" href="../res/logo.jpg">
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <h2>Complete Your Signup</h2>
-    <form action="signupdata.php" method="POST">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required><br><br>
+    <div class="form">
+        <h2>Complete Your Signup</h2>
+            <?php if ($message == 'alreadyexit'): ?>
+                <div class="message" id="success-alert">This email is already exit!.</div>
+            <?php endif; ?>
+        <form action="signupdata.php" method="POST">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required><br><br>
+            </div>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" readonly><br><br>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required><br><br>
+            </div>
 
-        <label for="phone">Phone Number:</label>
-        <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($phone); ?>" placeholder="Enter phone number" required><br><br>
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($phone); ?>" placeholder="Enter phone number" required><br><br>
+            </div>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" placeholder="Set a password" required><br><br>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Set a password" required><br><br>
+            </div>
 
-        <button type="submit">Sign Up</button>
-    </form>
+            <div class="form-group">
+                <button type="submit">Sign Up</button>
+            </div>
+
+            <p>Already Registered? Please <a href="login.php">Login</a> </p>
+        </form>
+    </div>
 </body>
 </html>

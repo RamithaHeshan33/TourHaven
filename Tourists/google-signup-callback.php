@@ -1,7 +1,7 @@
 <?php
 session_start();
-require '../conn.php'; // Include database connection
-require '../vendor/autoload.php'; // Google Client Library autoload
+require '../conn.php';
+require '../vendor/autoload.php';
 
 // Google API Client
 $client = new Google_Client();
@@ -36,16 +36,14 @@ if (isset($_GET['code'])) {
             // New user: store details in session and redirect to signup.php
             $_SESSION['google_name'] = $name;
             $_SESSION['google_email'] = $email;
-            $_SESSION['google_phone'] = ""; // Google doesn't provide phone by default
 
             header("Location: signup.php");
             exit();
         } else {
-            // Existing user: log in and redirect to home.php
             $_SESSION['user_email'] = $email;
             $_SESSION['user_name'] = $name;
 
-            header("Location: home.php");
+            header("Location: home/home.php");
             exit();
         }
     } else {

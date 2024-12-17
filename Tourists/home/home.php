@@ -17,6 +17,6 @@ if (!isset($_SESSION['user_email'])) {
 <body>
     <h1>Welcome, <?php echo $_SESSION['user_name']; ?>!</h1>
     <p>You have successfully signed up with your Google Account.</p>
-    <a href="logout.php">Logout</a>
+    <a href="../logout.php">Logout</a>
 </body>
 </html>
