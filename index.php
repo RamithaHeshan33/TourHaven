@@ -1,11 +1,6 @@
 <?php
 session_start();
 require 'nav/nav.php';
-
-if (!isset($_SESSION['user_email'])) {
-    header("Location: ../signup.php");
-    exit();
-}
 ?>
 
 <!DOCTYPE html>
@@ -27,12 +22,13 @@ if (!isset($_SESSION['user_email'])) {
     <div class="home">
         <div class="content">
             <div class="para">
-                <h1>Batch Store – Your Digital Batch Repository</h1>
+            <h1>Welcome to TourHaven – Your Travel Companion</h1>
                 <p class="items-justify">
-                    Welcome to <strong>Batch Store</strong>, BatchSaver is a powerful and user-friendly platform designed to help you securely 
-                    store, organize, and showcase your digital batches. Whether you’re tracking achievements, certifications, or professional 
-                    milestones, BatchSaver ensures your valuable records are always accessible and beautifully presented. Start building your
-                    personalized batch collection today and take pride in your accomplishments with BatchSaver!
+                    TourHaven is a comprehensive platform designed to make your travel experiences seamless and memorable. Whether you're a
+                     traveler looking to plan a perfect trip, book reliable vehicles, or secure comfortable hotel accommodations, we have you
+                      covered. Guides can register to showcase their expertise, while riders can keep their availability updated with easy
+                       online/offline status management. From hotel registrations to hassle-free reservations, TourHaven simplifies every step
+                        of your journey. Explore, plan, and travel effortlessly with TourHaven!
                 </p>
                 <div class="social items-center space-x-4 mt-4">
                     <a href="https://github.com/RamithaHeshan33/TourHaven" target="_blank"><i class='bx bxl-github'></i></a>
