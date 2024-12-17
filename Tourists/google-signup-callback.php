@@ -5,8 +5,8 @@ require '../vendor/autoload.php'; // Google Client Library autoload
 
 // Google API Client
 $client = new Google_Client();
-$client->setClientId('274839241301-b7o0dvlceptppe87iv4qk79h2ml7spee.apps.googleusercontent.com');
-$client->setClientSecret('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');
+$clientID = getenv('GOOGLE_OAUTH_CLIENT_ID');
+$clientSecret = getenv('GOOGLE_OAUTH_CLIENT_SECRET');
 $client->setRedirectUri('http://localhost:3000/Tourists/google-signup-callback.php');
 
 if (isset($_GET['code'])) {
