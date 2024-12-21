@@ -1,0 +1,67 @@
+.post-container {
+    margin-top: 100px;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    gap: 3rem;
+    background: #fff;
+}
+
+.form {
+    max-width: 700px;
+    width: 90%;
+    padding: 30px;
+}
+
+img {
+    width: 650px;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 20px;
+}
+
+.post-container h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #4CAF50;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+label {
+    font-weight: 500;
+}
+input[type="text"], input[type="number"], input[type="date"], textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+textarea {
+    resize: none;
+    height: 120px;
+}
+input[type="submit"] {
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+@media (max-width: 768px) {
+    .post-container {
+        padding: 20px;
+    }
+}

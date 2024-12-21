@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../../nav/nav.php';
+require '../nav.php';
 
 if (!isset($_SESSION['user_email'])) {
     header("Location: ../signup.php");
