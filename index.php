@@ -12,9 +12,7 @@ require 'nav/nav.php';
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <!-- <h1>Welcome, <?php echo $_SESSION['user_name']; ?>!</h1>
-    <p>You have successfully signed up with your Google Account.</p>
-    <a href="../logout.php">Logout</a> -->
+    <!-- <h1>Welcome, <?php echo $_SESSION['user_name']; ?>!</h1> `-->
 
     <video class="video-background" autoplay loop muted>
         <source src="res/background1.mp4" type="video/mp4">
