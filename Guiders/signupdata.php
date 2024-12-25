@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
+    $city = $_POST['city'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
     $query = "SELECT * FROM guiders WHERE email = ?";
@@ -22,9 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     else{
         // Insert the user data into the database
-        $insert_query = "INSERT INTO guiders (email, name, password, phone) VALUES (?, ?, ?, ?)";
+        $insert_query = "INSERT INTO guiders (email, name, password, phone, city) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($insert_query);
-        $stmt->bind_param('ssss', $email, $name, $password, $phone);
+        $stmt->bind_param('sssss', $email, $name, $password, $phone, $city);
 
         if ($stmt->execute()) {
             // Store user data in session and redirect to home.php

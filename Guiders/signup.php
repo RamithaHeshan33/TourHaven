@@ -44,6 +44,11 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
             </div>
 
             <div class="form-group">
+                <label for="city">Living City:</label>
+                <input type="text" id="city" name="city" placeholder="Enter living city" required><br><br>
+            </div>
+
+            <div class="form-group">
                 <button type="submit">Sign Up</button>
             </div>
 
