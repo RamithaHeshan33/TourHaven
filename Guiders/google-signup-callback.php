@@ -7,7 +7,7 @@ require '../vendor/autoload.php';
 $client = new Google_Client();
 $client->setClientId('274839241301-b7o0dvlceptppe87iv4qk79h2ml7spee.apps.googleusercontent.com');
 $client->setClientSecret('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');
-$client->setRedirectUri('http://localhost:3000/Tourists/google-signup-callback.php');
+$client->setRedirectUri('http://localhost:3000/Guiders/google-signup-callback.php');
 
 if (isset($_GET['code'])) {
     try {
@@ -27,7 +27,7 @@ if (isset($_GET['code'])) {
             $name = $user_info->name;
 
             // Check if the user already exists
-            $check_query = "SELECT * FROM tourists WHERE email = ?";
+            $check_query = "SELECT * FROM guiders WHERE email = ?";
             $stmt = $conn->prepare($check_query);
             if (!$stmt) {
                 throw new Exception("Database error: " . $conn->error);
@@ -52,7 +52,6 @@ if (isset($_GET['code'])) {
                 header("Location: home/home.php");
                 exit();
             }
-            
         } else {
             // Token error: Redirect to login with an error message
             header("Location: login.php?message=google_error");
