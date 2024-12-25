@@ -1,0 +1,142 @@
+.card-container {
+    margin: 100px 50px 0 50px;
+}
+
+.card {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.modal { 
+    z-index: 1000; padding: 20px; border: 1px solid #ccc;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+  }
+  
+  input[type="text"], input[type="email"], select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input[type="text"]:focus, select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  .modal::-webkit-scrollbar {
+    Display: none
+  }
+
+  .btn {
+    margin-top: 20px;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    margin-bottom: 20px;
+    width: 150px;
+    height: 40px;
+    color: #182431;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #2B5AC2;
+    border-radius: 88px;
+    background-color: #f0f8ff;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .btn-success {
+    display: inline-block;
+    margin-bottom: 20px;
+    width: 80px;
+    height: 40px;
+    color: #182431;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #2B5AC2;
+    border-radius: 88px;
+    background-color: #f0f8ff;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .btn-success:hover, .btn-primary:hover {
+    background-color: #2B5AC2;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  .btn-danger {
+    display: inline-block;
+    margin-bottom: 20px;
+    width: 80px;
+    height: 40px;
+    color: #182431;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #c22b2b;
+    border-radius: 88px;
+    background-color: #fff0f0;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c22b2b;
+    color: #ffffff;
+    cursor: pointer;
+  }
