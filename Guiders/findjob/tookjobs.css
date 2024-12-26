@@ -1,0 +1,87 @@
+
+.container {
+    margin: 100px 50px 0 50px;
+}
+
+.top {
+    display: flex;;
+    margin-bottom: 20px;
+}
+
+.btn {
+    text-align: right;
+    margin-left: 68%;
+    display: inline-block;
+    width: 150px;
+    height: 40px;
+    color: #182431;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #2B5AC2;
+    border-radius: 88px;
+    background-color: #f0f8ff;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.update-btn {
+    text-align: right;
+    display: inline-block;
+    width: 75px;
+    height: 40px;
+    color: #182431;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #2B5AC2;
+    border-radius: 88px;
+    background-color: #f0f8ff;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn:hover, .update-btn:hover {
+    background-color: #2B5AC2;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+table {
+    width: 93%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+

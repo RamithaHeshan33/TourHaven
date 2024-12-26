@@ -92,7 +92,7 @@ $conn->close();
                 }).then(response => response.json()).then(data => {
                     if (data.success) {
                         alert('Job successfully taken!');
-                        location.reload();
+                        window.location.href = 'tookjobs.php';
                     } else {
                         alert('Failed to take the job. Please try again.');
                     }
