@@ -1,11 +1,5 @@
 <?php
-    session_start();
-    if (!isset($_SESSION['email'])) {
-        header("location: ../login.php");
-        exit();
-    }
-    
-    require '../nav.php';
+    require '../nav/gouidersnav.php';
     
 ?>
 
@@ -14,11 +8,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../css/about.css">
+    <link rel="stylesheet" href="../css/about.css">
 </head>
 <body>
     <div class="about1">
-        <img src="../../res/about1.jpg" alt="about1">
+        <img src="../res/about1.jpg" alt="about1">
 
         <div class="content">
             <h1>Welcome to TourHaven</h1>
@@ -44,7 +38,7 @@
             </p>
         </div>
 
-        <img src="../../res/about2.jpg" alt="about2">
+        <img src="../res/about2.jpg" alt="about2">
     </div>
 </body>
 </html>

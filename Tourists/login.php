@@ -24,8 +24,9 @@
             $user = $query->fetch_assoc();
             // Verify password
             if (password_verify($password, $user['password'])) {
+                // Store user email and name in session
                 $_SESSION['user_name'] = $user['name'];
-                $_SESSION['email'] = $user['email'];
+                $_SESSION['email'] = $user['email'];  // Store email in session
                 header('Location: home/home.php');
             } else {
                 header("Location: login.php?message=invalid");

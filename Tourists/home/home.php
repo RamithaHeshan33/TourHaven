@@ -1,11 +1,11 @@
 <?php
-session_start();
-require '../nav.php';
+    session_start();
+    if (!isset($_SESSION['email'])) {
+        header("location: ../login.php");
+        exit();
+    }
 
-if (!isset($_SESSION['user_email'])) {
-    header("Location: ../signup.php");
-    exit();
-}
+    require '../nav.php';
 ?>
 
 <!DOCTYPE html>
@@ -17,13 +17,8 @@ if (!isset($_SESSION['user_email'])) {
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
-    <!-- <h1>Welcome, <?php echo $_SESSION['user_name']; ?>!</h1>
-    <p>You have successfully signed up with your Google Account.</p>
-    <a href="../logout.php">Logout</a> -->
-
     <video class="video-background" autoplay loop muted>
         <source src="../../res/background1.mp4" type="video/mp4">
-        Your browser does not support the video tag.
     </video>
     <div class="home">
         <div class="content">

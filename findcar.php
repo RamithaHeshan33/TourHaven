@@ -27,7 +27,7 @@ require('conn.php');
 
             </div>
             <div class="side-img">
-            <img src="../../img/mechnic.png" alt="mechanic image">
+            <img src="../res/about2.jpg" alt="mechanic image">
             </div>
         </div>
 </body>

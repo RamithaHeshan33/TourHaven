@@ -1,7 +1,7 @@
 <?php
-session_start(); // Start session at the beginning
+session_start();
 if (!isset($_SESSION['email'])) {
-    header('location: ../login.php'); // Redirect to login if session is not set
+    header('location: ../login.php');
     exit;
 }
 

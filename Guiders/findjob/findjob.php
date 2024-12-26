@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (!isset($_SESSION['email'])) {
+    header("location: ../login.php");
+    exit();
+}
+
 require '../../conn.php';
 require '../nav.php';
 $guider_email = $_SESSION['email'];
