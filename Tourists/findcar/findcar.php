@@ -28,7 +28,7 @@ require('../../conn.php');
                 travelers and reliable assistance when you need it most.
             </p>
             <button class="button" onclick="window.location.href='../post/post.php'">Find</button>
-            <button class="button" onclick="window.location.href='breakdown_details.php'">Breakdowns</button>
+            <button class="button" onclick="window.location.href='../post/tripposts.php'">Your Trips</button>
 
         </div>
         <div class="side-img">

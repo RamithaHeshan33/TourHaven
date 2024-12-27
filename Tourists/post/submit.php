@@ -3,6 +3,7 @@
     require('../../conn.php');
 
     $name = $_POST['name'];
+    $tourmail = $_POST['email'];
     $team_number = $_POST['team_number'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
@@ -11,8 +12,8 @@
     $end_date = $_POST['end_date'];
     $remakes = $_POST['remakes'];
 
-    $sql = "INSERT INTO trip_details (name, team_number, phone, address, destination, st_date, end_date, remakes)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO trip_details (name, tourist_mail, team_number, phone, address, destination, st_date, end_date, remakes)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
 
     if ($stmt === false) {
@@ -20,7 +21,7 @@
         exit();
     }
 
-    $stmt->bind_param("sissssss", $name, $team_number, $phone, $address, $destination, $st_date, $end_date, $remakes);
+    $stmt->bind_param("ssissssss", $name, $tourmail, $team_number, $phone, $address, $destination, $st_date, $end_date, $remakes);
 
     if ($stmt->execute()) {
         header('Location: post.php');

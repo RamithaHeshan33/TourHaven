@@ -28,6 +28,9 @@
                 <label for="name">Name</label>
                 <input type="text" name="name" placeholder="Enter your name" required>
 
+                <label for="email">Email</label>
+                <input type="email" name="email" placeholder="Enter your email" required>
+
                 <label for="team_number">Number of Team Members</label>
                 <input type="number" name="team_number" placeholder="Enter number of team members" min="1" required>
 
