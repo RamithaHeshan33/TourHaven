@@ -23,7 +23,7 @@ require('conn.php');
 
 
             <a href="Tourists/post/post.php" class="button">Find</a>
-            <a href="breakdown_details.php" class="button">Breakdowns</a>
+            <a href="Tourists/post/tripposts.php" class="button">Your Trips</a>
 
             </div>
             <div class="side-img">
