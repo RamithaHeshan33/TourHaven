@@ -40,13 +40,15 @@ $conn->close();
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo "<div class='card'>";
-                    echo "<p><strong>Guider Name:</strong> " . htmlspecialchars($row['gname']) . "</p>";
-                    echo "<p><strong>Guider Contact:</strong> " . htmlspecialchars($row['gphone']) . "</p>";
-                    echo "<p><strong>Guider Email:</strong> " . htmlspecialchars($row['guider_mail']) . "</p>";
+                    echo "<p><strong>Guider Name:</strong> <span data-guiderName>" . htmlspecialchars($row['gname']) . "</p>";
+                    echo "<p><strong>Guider Contact:</strong> <span data-guiderConact>" . htmlspecialchars($row['gphone']) . "</p>";
+                    echo "<p><strong>Guider Email:</strong> <span data-guiderEmail>" . htmlspecialchars($row['guider_mail']) . "</p>";
+                    echo "<p><strong>Trip Status: </strong>" . htmlspecialchars($row['status']) . "</p>";
 
                     echo "<hr class='line'>";
 
-                    echo "<p><strong>Trip Name:</strong> <span data-name>" . htmlspecialchars($row['name']) . "</span></p>";
+                    echo "<p><strong>Name:</strong> <span data-name>" . htmlspecialchars($row['name']) . "</span></p>";
+                    echo "<p><strong>Name:</strong> <span data-touristEmail>" . htmlspecialchars($row['tourist_mail']) . "</span></p>";
                     echo "<p><strong>Team Number:</strong> <span data-team-number>" . htmlspecialchars($row['team_number']) . "</span></p>";
                     echo "<p><strong>Phone:</strong> <span data-phone>" . htmlspecialchars($row['phone']) . "</span></p>";
                     echo "<p><strong>Address:</strong> <span data-address>" . htmlspecialchars($row['address']) . "</span></p>";
@@ -58,6 +60,7 @@ $conn->close();
                     echo "<div class='btns'>";
                     echo "<button class='btn btn-update' data-id='" . $row['id'] . "' onclick='showUpdateModal(this)'>Update</button>";
                     echo "<button class='btn btn-delete' data-id='" . $row['id'] . "' onclick='showDeleteModal(this)'>Delete</button>";
+                    echo "<button class='btn btn-update' data-id='" . $row['id'] . "' onclick='showRateModal(this)'>Rate</button>";
                     echo "</div>";
                     echo "</div>";
                 }
@@ -114,6 +117,41 @@ $conn->close();
         </div>
     </div>
 
+    <!-- Rate Modal -->
+    <div id="rate-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('rate-modal')">&times;</span>
+            <h2>Rate for the Companion</h2>
+            <form id="update-form" onsubmit="rateCompanion(event)">
+                <input type="hidden" id="guider-id" name="id">
+                <input type="hidden" id="tourist-email" name="tourist-email">
+                <label for="guider-name">Trip Name:</label>
+                <input type="text" id="guider-name" name="name" readonly required>
+                <label for="guider-email">Email:</label>
+                <input type="text" id="guider-email" name="email" readonly>
+                
+                <!-- Star Rating Section -->
+                <label for="rating-stars">Rate:</label>
+                <div id="rating-stars" style="display: flex; gap: 5px; font-size: 24px; cursor: pointer;">
+                    <span class="star" data-value="1">&#9734;</span>
+                    <span class="star" data-value="2">&#9734;</span>
+                    <span class="star" data-value="3">&#9734;</span>
+                    <span class="star" data-value="4">&#9734;</span>
+                    <span class="star" data-value="5">&#9734;</span>
+                </div>
+                <input type="hidden" id="star-rating" name="rating" required>
+                <br>
+
+                <label for="guider-rate">Comments:</label>
+                <textarea id="guider-rate" name="guider-rate" placeholder="Enter your feedback" style="width: 100%; padding: 10px;" rows="4"></textarea>
+                <div style="display: flex; gap: 20px;">
+                    <button type="submit" class="btn-update">Submit</button>
+                    <button type="button" class="btn-delete" onclick="closeModal('rate-modal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </body>
 
 <script>
@@ -133,6 +171,19 @@ $conn->close();
         document.getElementById('update-remarks').value = card.querySelector('[data-remarks]').textContent.trim();
 
         document.getElementById('update-modal').style.display = 'block';
+    }
+
+    function showRateModal(button) {
+        const card = button.closest('.card');
+        const id = button.getAttribute('data-id');
+
+        // Pre-fill modal form with details
+        document.getElementById('guider-id').value = id;
+        document.getElementById('tourist-email').value =card.querySelector('[data-touristEmail]').textContent.trim();
+        document.getElementById('guider-name').value = card.querySelector('[data-guiderName]').textContent.trim();
+        document.getElementById('guider-email').value = card.querySelector('[data-guiderEmail]').textContent.trim();
+        
+        document.getElementById('rate-modal').style.display = 'block';
     }
 
     function showDeleteModal(button) {
@@ -183,6 +234,63 @@ $conn->close();
             .catch((error) => {
                 console.error('Error:', error);
             });
+    }
+
+    function rateCompanion(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Collect form data
+        const formData = {
+            guider_id: document.getElementById('guider-id').value,
+            tourist_email: document.getElementById('tourist-email').value,
+            guider_name: document.getElementById('guider-name').value,
+            guider_email: document.getElementById('guider-email').value,
+            rating: document.getElementById('star-rating').value,
+            comments: document.getElementById('guider-rate').value,
+        };
+
+        // Send data to the server via an AJAX request
+        fetch('submit-rating.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Failed to submit rating');
+            })
+            .then((data) => {
+                alert('Rating submitted successfully!');
+                closeModal('rate-modal');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred while submitting the rating.');
+            });
+    }
+
+
+    // JavaScript for Star Rating
+    document.querySelectorAll('.star').forEach(star => {
+        star.addEventListener('click', function() {
+            let value = this.getAttribute('data-value');
+            document.getElementById('star-rating').value = value;
+            highlightStars(value);
+        });
+    });
+
+    function highlightStars(rating) {
+        document.querySelectorAll('.star').forEach(star => {
+            if (star.getAttribute('data-value') <= rating) {
+                star.innerHTML = '&#9733;'; // Filled star
+            } else {
+                star.innerHTML = '&#9734;'; // Empty star
+            }
+        });
     }
 
 
