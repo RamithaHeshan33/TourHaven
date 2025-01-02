@@ -30,10 +30,10 @@
             <h1>Submit Your Details</h1>
             <form action="submit.php" method="POST">
                 <label for="name">Name</label>
-                <input type="text" name="name" placeholder="Enter your name" required>
+                <input type="text" name="name" placeholder="Enter your name" value="<?php echo $_SESSION['user_name']?>" required>
 
                 <label for="email">Email</label>
-                <input type="email" name="email" placeholder="Enter your email" required>
+                <input type="email" name="email" placeholder="Enter your email" value="<?php echo $_SESSION['email']; ?>" readonly
 
                 <label for="team_number">Number of Team Members</label>
                 <input type="number" name="team_number" placeholder="Enter number of team members" min="1" required>
