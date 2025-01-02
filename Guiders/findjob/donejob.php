@@ -71,15 +71,15 @@ $result = $stmt->get_result();
                 <?php if ($result->num_rows > 0): ?>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($row['name']); ?></td>
-                            <td><?php echo htmlspecialchars($row['team_number']); ?></td>
-                            <td><?php echo htmlspecialchars($row['phone']); ?></td>
-                            <td><?php echo htmlspecialchars($row['address']); ?></td>
-                            <td><?php echo htmlspecialchars($row['destination']); ?></td>
-                            <td><?php echo htmlspecialchars($row['st_date']); ?></td>
-                            <td><?php echo htmlspecialchars($row['end_date']); ?></td>
-                            <td><?php echo htmlspecialchars($row['remakes']); ?></td>
-                            <td><?php echo htmlspecialchars($row['created_at']); ?></td>
+                            <td data-cell="Name"><?php echo htmlspecialchars($row['name']); ?></td>
+                            <td data-cell="Team Number"><?php echo htmlspecialchars($row['team_number']); ?></td>
+                            <td data-cell="Phone"><?php echo htmlspecialchars($row['phone']); ?></td>
+                            <td data-cell="Address"><?php echo htmlspecialchars($row['address']); ?></td>
+                            <td data-cell="Destination"><?php echo htmlspecialchars($row['destination']); ?></td>
+                            <td data-cell="Start Date"><?php echo htmlspecialchars($row['st_date']); ?></td>
+                            <td data-cell="End Date"><?php echo htmlspecialchars($row['end_date']); ?></td>
+                            <td data-cell="Remakes"><?php echo htmlspecialchars($row['remakes']); ?></td>
+                            <td data-cell="Posted Date"><?php echo htmlspecialchars($row['created_at']); ?></td>
                         </tr>
                     <?php endwhile; ?>
                 <?php else: ?>

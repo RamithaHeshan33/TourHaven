@@ -85,3 +85,48 @@ tr:hover {
     background-color: #ddd;
 }
 
+
+@media screen and (max-width: 1199px) {
+    .container {
+        margin: 100px 20px 0 20px;
+    }
+
+    .top {
+        display: inline;
+    }
+
+    .btn {
+        margin-left: 30%;
+
+    }
+
+    h1 {
+        font-size: 1.3rem;
+        text-align: center;
+    }
+
+    th{
+        display: none;
+    }
+    td{
+        
+        display: grid;
+        gap: 0.5rem;
+        grid-template-columns: 15ch auto;
+        padding: 0.75rem 1rem;
+    }
+    td:first-child{
+        padding-top: 2rem;
+
+    }
+    td:last-child{
+        padding-bottom: 2rem;
+        
+    }
+    td::before{
+        content:attr(data-cell) ": ";
+        font-weight: 700;
+        text-transform: capitalize;
+    }
+
+}

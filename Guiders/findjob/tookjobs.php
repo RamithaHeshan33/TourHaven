@@ -50,16 +50,16 @@
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
                             <td style="display: none;"><?php echo htmlspecialchars($row['id']); ?></td>
-                            <td><?php echo htmlspecialchars($row['name']); ?></td>
-                            <td><?php echo htmlspecialchars($row['team_number']); ?></td>
-                            <td><?php echo htmlspecialchars($row['phone']); ?></td>
-                            <td><?php echo htmlspecialchars($row['address']); ?></td>
-                            <td><?php echo htmlspecialchars($row['destination']); ?></td>
-                            <td><?php echo htmlspecialchars($row['st_date']); ?></td>
-                            <td><?php echo htmlspecialchars($row['end_date']); ?></td>
-                            <td><?php echo htmlspecialchars($row['remakes']); ?></td>
-                            <td><?php echo htmlspecialchars($row['created_at']); ?></td>
-                            <td>
+                            <td data-cell="Name"><?php echo htmlspecialchars($row['name']); ?></td>
+                            <td data-cell="Team Number"><?php echo htmlspecialchars($row['team_number']); ?></td>
+                            <td data-cell="Phone"><?php echo htmlspecialchars($row['phone']); ?></td>
+                            <td data-cell="Addres"><?php echo htmlspecialchars($row['address']); ?></td>
+                            <td data-cell="Destination"><?php echo htmlspecialchars($row['destination']); ?></td>
+                            <td data-cell="Start Date"><?php echo htmlspecialchars($row['st_date']); ?></td>
+                            <td data-cell="End Date"><?php echo htmlspecialchars($row['end_date']); ?></td>
+                            <td data-cell="Remakes"><?php echo htmlspecialchars($row['remakes']); ?></td>
+                            <td data-cell="Posted Date"><?php echo htmlspecialchars($row['created_at']); ?></td>
+                            <td data-cell="Action">
                                 <button class="update-btn" data-id="<?php echo $row['id']; ?>" onclick="showModal(this)">Done</button>
                             </td>
                         </tr>
