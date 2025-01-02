@@ -7,6 +7,8 @@
     require('../nav.php');
     require('../../conn.php');
 
+    $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
+
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +19,17 @@
     <title>Document</title>
     <link rel="stylesheet" href="post.css">
     <link rel="shortcut icon" href="../../res/logo.jpg">
+
+    <style>
+        .success {
+            margin-top: 1rem;
+            font-weight: bold;
+            color: #5cb85c;
+            text-align: center;
+
+        }
+    </style>
+
 </head>
 <body>
     <div class="post-container">
@@ -28,12 +41,15 @@
 
         <div class="form">
             <h1>Submit Your Details</h1>
+            <?php if ($message == 'success'): ?>
+                <div class="success" id="success-alert">Your Trip was successfully scheduled! please <u><a href="tripposts.php">visit</a></u></div>
+            <?php endif; ?>
             <form action="submit.php" method="POST">
                 <label for="name">Name</label>
                 <input type="text" name="name" placeholder="Enter your name" value="<?php echo $_SESSION['user_name']?>" required>
 
                 <label for="email">Email</label>
-                <input type="email" name="email" placeholder="Enter your email" value="<?php echo $_SESSION['email']; ?>" readonly
+                <input type="email" name="email" placeholder="Enter your email" value="<?php echo $_SESSION['email']; ?>" readonly>
 
                 <label for="team_number">Number of Team Members</label>
                 <input type="number" name="team_number" placeholder="Enter number of team members" min="1" required>
@@ -61,5 +77,16 @@
         </div>
     </div>
 </body>
+
+<script>
+    // hide the alert after 10 seconds
+    setTimeout(function() {
+        var alert = document.getElementById('success-alert');
+        if (alert) {
+            alert.style.display = 'none';
+        }
+    }, 10000);
+</script>
+
 </html>
 

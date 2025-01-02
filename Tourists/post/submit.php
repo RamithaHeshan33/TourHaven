@@ -24,7 +24,7 @@
     $stmt->bind_param("ssissssss", $name, $tourmail, $team_number, $phone, $address, $destination, $st_date, $end_date, $remakes);
 
     if ($stmt->execute()) {
-        header('Location: post.php');
+        header('Location: post.php?message=success');
         exit();
     } else {
         echo "Error executing statement: " . $stmt->error;
