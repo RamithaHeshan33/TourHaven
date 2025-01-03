@@ -1,11 +1,11 @@
 <?php
     session_start();
     if (!isset($_SESSION['email'])) {
-        header("location: Tourists/login.php");
+        header("location: login.php");
         exit();
     }
-    require "Tourists/nav.php";
-    require "conn.php";
+    require "../nav.php";
+    require "../../conn.php";
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +24,6 @@
 
         body, html {
             height: 98.5%;
-            font-family: Arial, sans-serif;
             background-color: #f4f4f9;
         }
 
@@ -43,7 +42,7 @@
         .container {
             display: flex;
             flex-direction: column;
-            height: calc(100% - 50px); /* Adjust height to exclude header */
+            height: calc(100% - 50px);
         }
 
         iframe {
