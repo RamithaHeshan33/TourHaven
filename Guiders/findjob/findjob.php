@@ -36,31 +36,42 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="findjob.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4WKu5raw64v4-CB8bYSq7SMtFikfu5lg"></script>
 </head>
 <body>
-    <div class="card-container">
+    <div class="body">
         <h2>Trip Details</h2>
-        <?php
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo "<div class='card'>";
-                    echo "<p><strong>Client Name:</strong> " . htmlspecialchars($row['name']) . "</p>";
-                    echo "<p><strong>Team Number:</strong> " . htmlspecialchars($row['team_number']) . "</p>";
-                    echo "<p><strong>Phone:</strong> " . htmlspecialchars($row['phone']) . "</p>";
-                    echo "<p><strong>Address:</strong> " . htmlspecialchars($row['address']) . "</p>";
-                    echo "<p><strong>Destination:</strong> " . htmlspecialchars($row['destination']) . "</p>";
-                    echo "<p><strong>Start Date:</strong> " . htmlspecialchars($row['st_date']) . "</p>";
-                    echo "<p><strong>End Date:</strong> " . htmlspecialchars($row['end_date']) . "</p>";
-                    echo "<p><strong>Remarks:</strong> " . htmlspecialchars($row['remakes']) . "</p>";
-                    echo "<p><strong>Created At:</strong> " . htmlspecialchars($row['created_at']) . "</p>";
-                    echo "<button class='btn btn-primary' data-id='" . $row['id'] . "' onclick='showModal(this)'>Take This Job</button>";
-                    echo "</div>";
+        <div class="card-container">
+            <?php
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $cardId = htmlspecialchars($row['id']);
+                        $startAddress = htmlspecialchars($row['address']);
+                        $endDestination = htmlspecialchars($row['destination']);
+                        echo "<div class='card'>";
+                        echo "<div class='card-content'>";
+                        echo "<p><strong>Client Name:</strong> " . htmlspecialchars($row['name']) . "</p>";
+                        echo "<p><strong>Team Number:</strong> " . htmlspecialchars($row['team_number']) . "</p>";
+                        echo "<p><strong>Phone:</strong> " . htmlspecialchars($row['phone']) . "</p>";
+                        echo "<p><strong>Address:</strong> " . $startAddress . "</p>";
+                        echo "<p><strong>Destination:</strong> " . $endDestination . "</p>";
+                        echo "<p><strong>Start Date:</strong> " . htmlspecialchars($row['st_date']) . "</p>";
+                        echo "<p><strong>End Date:</strong> " . htmlspecialchars($row['end_date']) . "</p>";
+                        echo "<p><strong>Remarks:</strong> " . htmlspecialchars($row['remakes']) . "</p>";
+                        echo "<p><strong>Created At:</strong> " . htmlspecialchars($row['created_at']) . "</p>";
+                        echo "<button class='btn btn-primary' data-id='$cardId' onclick='showModal(this)'>Take This Job</button>";
+                        echo "</div>";
+                        echo "<div id='map-$cardId' class='map'></div>";
+                        echo "</div>";
+                    }
+                } else {
+                    echo "<p>No available trips matching your city were found.</p>";
                 }
-            } else {
-                echo "<p>No available trips matching your city were found.</p>";
-            }
-        ?>
+            ?>
+        </div>
     </div>
+    
+
 
     <!-- Modal Structure -->
     <div id="confirmationModal" class="modal">
@@ -84,16 +95,14 @@ $conn->close();
             document.getElementById('confirmationModal').style.display = 'none';
         }
 
-        document.getElementById('confirmButton').addEventListener('click', function() {
+        document.getElementById('confirmButton').addEventListener('click', function () {
             if (selectedJobId) {
                 fetch('take_job.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        jobId: selectedJobId
-                    })
+                    body: JSON.stringify({ jobId: selectedJobId })
                 }).then(response => response.json()).then(data => {
                     if (data.success) {
                         alert('Job successfully taken!');
@@ -108,7 +117,52 @@ $conn->close();
                 closeModal();
             }
         });
+
+        function initMap() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const cardId = card.querySelector('button').getAttribute('data-id');
+                const mapDiv = document.getElementById(`map-${cardId}`);
+                const startAddress = card.querySelector('p:nth-child(4)').textContent.replace("Address: ", "").trim();
+                const endDestination = card.querySelector('p:nth-child(5)').textContent.replace("Destination: ", "").trim();
+
+                const geocoder = new google.maps.Geocoder();
+                const directionsService = new google.maps.DirectionsService();
+                const directionsRenderer = new google.maps.DirectionsRenderer();
+
+                geocoder.geocode({ address: startAddress }, (startResults, status) => {
+                    if (status === 'OK') {
+                        geocoder.geocode({ address: endDestination }, (endResults, status) => {
+                            if (status === 'OK') {
+                                const map = new google.maps.Map(mapDiv, {
+                                    center: startResults[0].geometry.location,
+                                    zoom: 12
+                                });
+                                directionsRenderer.setMap(map);
+
+                                const request = {
+                                    origin: startResults[0].geometry.location,
+                                    destination: endResults[0].geometry.location,
+                                    travelMode: 'DRIVING'
+                                };
+
+                                directionsService.route(request, (result, status) => {
+                                    if (status === 'OK') {
+                                        directionsRenderer.setDirections(result);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+        window.onload = initMap;
     </script>
 
+    <style>
+        
+    </style>
 </body>
 </html>

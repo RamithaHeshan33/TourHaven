@@ -11,7 +11,7 @@ $tourist_email = $_SESSION['email'];
 
 $trippost = "SELECT td.*, g.name AS gname, g.phone AS gphone FROM trip_details td 
              LEFT JOIN guiders g ON td.guider_mail = g.email 
-             WHERE tourist_mail = ?";
+             WHERE status ='Pending' AND tourist_mail = ?";
 $stmt = $conn->prepare($trippost);
 $stmt->bind_param("s", $tourist_email);
 $stmt->execute();
@@ -32,7 +32,8 @@ $conn->close();
     <div class="container">
         <div class="top">
             <h1>Your Trip Schedules</h1>
-            <button class="btn" onclick="window.location.href='../findcar/findcar.php'">Back</button>
+            <button class="btn" onclick="window.location.href='donetrips.php'">Done</button>
+            <!-- <button class="btn" onclick="window.location.href='../findcar/findcar.php'">Back</button> -->
         </div>
 
         <div class="card-container">
