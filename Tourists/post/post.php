@@ -44,7 +44,7 @@
             <?php if ($message == 'success'): ?>
                 <div class="success" id="success-alert">Your Trip was successfully scheduled! please <u><a href="tripposts.php">visit</a></u></div>
             <?php endif; ?>
-            <form action="submit.php" method="POST">
+            <form action="payment/checkout.php" method="POST">
                 <label for="name">Name</label>
                 <input type="text" name="name" placeholder="Enter your name" value="<?php echo $_SESSION['user_name']?>" required>
 
