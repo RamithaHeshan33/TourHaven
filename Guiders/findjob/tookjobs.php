@@ -22,55 +22,43 @@
     <title>Taken Jobs</title>
     <link rel="stylesheet" href="tookjobs.css">
     <link rel="stylesheet" href="findjob.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4WKu5raw64v4-CB8bYSq7SMtFikfu5lg"></script>
+    
+
 </head>
 <body>
     <div class="container">
         <div class="top">
-            <h1>Your Taken Jobs</h1>
+            <h1>Your Jobs</h1>
             <button class="btn" onclick="window.location.href='donejob.php'">Done Jobs</button>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <!-- <th>ID</th> -->
-                    <th>Client Name</th>
-                    <th>Team Number</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>Destination</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Remarks</th>
-                    <th>Created At</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if ($result->num_rows > 0): ?>
-                    <?php while ($row = $result->fetch_assoc()): ?>
-                        <tr>
-                            <td style="display: none;"><?php echo htmlspecialchars($row['id']); ?></td>
-                            <td data-cell="Name"><?php echo htmlspecialchars($row['name']); ?></td>
-                            <td data-cell="Team Number"><?php echo htmlspecialchars($row['team_number']); ?></td>
-                            <td data-cell="Phone"><?php echo htmlspecialchars($row['phone']); ?></td>
-                            <td data-cell="Addres"><?php echo htmlspecialchars($row['address']); ?></td>
-                            <td data-cell="Destination"><?php echo htmlspecialchars($row['destination']); ?></td>
-                            <td data-cell="Start Date"><?php echo htmlspecialchars($row['st_date']); ?></td>
-                            <td data-cell="End Date"><?php echo htmlspecialchars($row['end_date']); ?></td>
-                            <td data-cell="Remakes"><?php echo htmlspecialchars($row['remakes']); ?></td>
-                            <td data-cell="Posted Date"><?php echo htmlspecialchars($row['created_at']); ?></td>
-                            <td data-cell="Action">
-                                <button class="update-btn" data-id="<?php echo $row['id']; ?>" onclick="showModal(this)">Done</button>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="10" style="text-align: center;">No jobs taken yet.</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+        <div class="card-container">
+            <?php
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $cardId = htmlspecialchars($row['id']);
+                        $startAddress = htmlspecialchars($row['address']);
+                        $endDestination = htmlspecialchars($row['destination']);
+                        echo "<div class='card'>";
+                        echo "<div class='card-content'>";
+                        echo "<p><strong>Client Name:</strong> " . htmlspecialchars($row['name']) . "</p>";
+                        echo "<p><strong>Team Number:</strong> " . htmlspecialchars($row['team_number']) . "</p>";
+                        echo "<p><strong>Phone:</strong> " . htmlspecialchars($row['phone']) . "</p>";
+                        echo "<p><strong>Address:</strong> " . $startAddress . "</p>";
+                        echo "<p><strong>Destination:</strong> " . $endDestination . "</p>";
+                        echo "<p><strong>Start Date:</strong> " . htmlspecialchars($row['st_date']) . "</p>";
+                        echo "<p><strong>End Date:</strong> " . htmlspecialchars($row['end_date']) . "</p>";
+                        echo "<p><strong>Remarks:</strong> " . htmlspecialchars($row['remakes']) . "</p>";
+                        echo "<button class='btn btn-primary' data-id='$cardId' onclick='showModal(this)'>Done</button>";
+                        echo "</div>";
+                        echo "<div id='map-$cardId' class='map'></div>";
+                        echo "</div>";
+                    }
+                } else {
+                    echo "<p>No available trips matching your city were found.</p>";
+                }
+            ?>
+        </div>
     </div>
 
     <!-- Modal -->
@@ -113,6 +101,48 @@
             }
         });
 
+
+        function initMap() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const cardId = card.querySelector('button').getAttribute('data-id');
+                const mapDiv = document.getElementById(`map-${cardId}`);
+                const startAddress = card.querySelector('p:nth-child(4)').textContent.replace("Address: ", "").trim();
+                const endDestination = card.querySelector('p:nth-child(5)').textContent.replace("Destination: ", "").trim();
+
+                const geocoder = new google.maps.Geocoder();
+                const directionsService = new google.maps.DirectionsService();
+                const directionsRenderer = new google.maps.DirectionsRenderer();
+
+                geocoder.geocode({ address: startAddress }, (startResults, status) => {
+                    if (status === 'OK') {
+                        geocoder.geocode({ address: endDestination }, (endResults, status) => {
+                            if (status === 'OK') {
+                                const map = new google.maps.Map(mapDiv, {
+                                    center: startResults[0].geometry.location,
+                                    zoom: 12
+                                });
+                                directionsRenderer.setMap(map);
+
+                                const request = {
+                                    origin: startResults[0].geometry.location,
+                                    destination: endResults[0].geometry.location,
+                                    travelMode: 'DRIVING'
+                                };
+
+                                directionsService.route(request, (result, status) => {
+                                    if (status === 'OK') {
+                                        directionsRenderer.setDirections(result);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+        window.onload = initMap;
     </script>
 </body>
 </html>

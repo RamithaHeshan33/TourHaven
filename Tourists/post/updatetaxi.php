@@ -9,19 +9,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = $_POST['phone'];
     $address = $_POST['address'];
     $destination = $_POST['destination'];
-    $st_date = $_POST['st_date'];
-    $end_date = $_POST['end_date'];
-    $remarks = $_POST['remarks'];
 
-    if (empty($id) || empty($name) || empty($team_number) || empty($phone) || empty($address) || empty($destination) || empty($st_date) || empty($end_date)) {
+    if (empty($id) || empty($name) || empty($team_number) || empty($phone) || empty($address) || empty($destination)) {
         echo json_encode(["status" => "error", "message" => "All fields are required."]);
         exit;
     }
 
     // Update query
-    $query = "UPDATE trip_details SET name = ?, team_number = ?, phone = ?, address = ?, destination = ?, st_date = ?, end_date = ?, remakes = ? WHERE id = ?";
+    $query = "UPDATE emergency SET name = ?, team_number = ?, phone = ?, address = ?, destination = ? WHERE id = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("ssssssssi", $name, $team_number, $phone, $address, $destination, $st_date, $end_date, $remarks, $id);
+    $stmt->bind_param("sssssi", $name, $team_number, $phone, $address, $destination, $id);
 
     if ($stmt->execute()) {
         echo json_encode(["status" => "success", "message" => "Trip details updated successfully."]);

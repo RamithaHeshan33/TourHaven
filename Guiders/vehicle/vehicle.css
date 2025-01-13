@@ -194,3 +194,28 @@ button, .delete-btn {
 .modal-buttons button.delete {
     background-color: #dc3545;
 }
+
+@media (max-width: 768px) {
+    .body {
+        flex-direction: column;
+        align-items: center;
+    }
+    .form-body {
+        margin: 100px 0 0 0;
+        justify-content: center;
+    }
+    .vehicle-image {
+        margin-top: 50px;
+    }
+    .search-image {
+        width: 100%;
+        margin-top: 0;
+    }
+    .vehicle-card {
+        width: 90%;
+    }
+    .form {
+        width: 90%;
+    }
+    
+}

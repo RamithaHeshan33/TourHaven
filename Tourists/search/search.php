@@ -15,7 +15,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Budget Buddy - Chat Assistance</title>
     <style>
-        /* General Reset */
         * {
             margin: 0;
             padding: 0;
@@ -27,7 +26,6 @@
             background-color: #f4f4f9;
         }
 
-        /* Header Styling */
         header {
             background-color: #004d7a;
             color: white;
@@ -38,7 +36,6 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        /* Main Content Styling */
         .container {
             display: flex;
             flex-direction: column;
@@ -56,12 +53,10 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         Budget Buddy - Your Travel Assistant
     </header>
 
-    <!-- Main Content -->
     <div class="container">
         <iframe src="https://copilotstudio.microsoft.com/environments/Default-189dc61c-769b-4048-8b0f-6de074bba26c/bots/cr10a_tourHaven/webchat?__version__=2"></iframe>
     </div>

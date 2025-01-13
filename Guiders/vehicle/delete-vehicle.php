@@ -10,7 +10,6 @@ if (!isset($_SESSION['email'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $vehicle_id = $_POST['vehicle_id'];
 
-    // Verify ownership of the vehicle
     $email = $_SESSION['email'];
     $sql = "DELETE FROM vehicles WHERE id = ? AND email = ?";
     $stmt = $conn->prepare($sql);

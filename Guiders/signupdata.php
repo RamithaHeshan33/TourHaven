@@ -1,9 +1,8 @@
 <?php
 session_start();
-require '../conn.php'; // Include database connection
+require '../conn.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Collect data from the form
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
@@ -28,11 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param('sssss', $email, $name, $password, $phone, $city);
 
         if ($stmt->execute()) {
-            // Store user data in session and redirect to home.php
             $_SESSION['user_email'] = $email;
             $_SESSION['user_name'] = $name;
 
-            // Clear temporary Google session data
             unset($_SESSION['google_name']);
             unset($_SESSION['google_email']);
             unset($_SESSION['google_phone']);

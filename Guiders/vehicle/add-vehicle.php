@@ -15,6 +15,7 @@ if (!is_dir($uploadDir)) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_SESSION['email'];
     $vehicleName = $_POST['vehicle_name'];
+    $price = $_POST['price'];
     $vehicleType = $_POST['vehicle_type'];
     $description = $_POST['description'];
     
@@ -34,11 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Save to database
-    $sql = "INSERT INTO vehicles (email, vehicle_name, vehicle_type, description, main_image) 
-            VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO vehicles (email, vehicle_name, vehicle_type, description, main_image, price) 
+            VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
 
-    $stmt->bind_param('sssss', $email, $vehicleName, $vehicleType, $description, $mainImagePath);
+    $stmt->bind_param('ssssss', $email, $vehicleName, $vehicleType, $description, $mainImagePath, $price);
 
     if ($stmt->execute()) {
         header("location: vehicle.php?message=success");

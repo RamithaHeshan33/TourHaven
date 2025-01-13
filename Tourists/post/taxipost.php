@@ -42,16 +42,16 @@
         <div class="form">
             <h1>Submit Your Details</h1>
             <?php if ($message == 'success'): ?>
-                <div class="success" id="success-alert">Your Trip was successfully scheduled! please <u><a href="tripposts.php">visit</a></u></div>
+                <div class="success" id="success-alert">Your Trip was successfully scheduled! please <u><a href="yourtaxiposts.php">visit</a></u></div>
             <?php endif; ?>
-            <form action="selectvehicle.php" method="POST">
+            <form action="payment/taxicheckout.php" method="POST">
                 <label for="name">Name</label>
                 <input type="text" name="name" placeholder="Enter your name" value="<?php echo $_SESSION['user_name']?>" required>
 
                 <label for="email">Email</label>
                 <input type="email" name="email" placeholder="Enter your email" value="<?php echo $_SESSION['email']; ?>" readonly>
 
-                <label for="team_number">Number of Team Members</label>
+                <label for="team_number">Number of Passengers</label>
                 <input type="number" name="team_number" placeholder="Enter number of team members" min="1" required>
 
                 <label for="phone">Contact Number</label>
@@ -60,17 +60,18 @@
                 <label for="address">Address</label>
                 <input type="text" name="address" placeholder="Enter your address" required>
 
+                <label for="vehicle_type">Vehicle Type</label>
+                <select name="vehicle_type" id="vehicle_type" required>
+                    <option value="" disabled selected>Select Vehicle Type</option>
+                    <option value="Car">Car</option>
+                    <option value="Wheeler">Wheeler</option>
+                    <option value="Van">Van</option>
+                    <option value="Bus">Bus</option>
+                    <option value="AC_Bus">A/C Bus</option>
+                </select>
+
                 <label for="destination">Destination</label>
                 <input type="text" name="destination" placeholder="Enter the destination" required>
-
-                <label for="st_date">Starting Date</label>
-                <input type="date" name="st_date" required>
-
-                <label for="end_date">Ending Date</label>
-                <input type="date" name="end_date" required>
-
-                <label for="remakes">Remarks</label>
-                <textarea name="remakes" placeholder="Enter any additional details..."></textarea>
 
                 <input type="submit" value="Proceed to Vehicle Selection">
             </form>

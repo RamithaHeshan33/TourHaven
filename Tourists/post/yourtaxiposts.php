@@ -9,7 +9,7 @@ require('../../conn.php');
 
 $tourist_email = $_SESSION['email'];
 
-$trippost = "SELECT td.*, g.name AS gname, g.phone AS gphone FROM trip_details td 
+$trippost = "SELECT td.*, g.name AS gname, g.phone AS gphone FROM emergency td 
              LEFT JOIN guiders g ON td.guider_mail = g.email 
              WHERE status ='Pending' AND tourist_mail = ?";
 $stmt = $conn->prepare($trippost);
@@ -32,7 +32,7 @@ $conn->close();
     <div class="container">
         <div class="top">
             <h1>Your Trip Schedules</h1>
-            <button class="btn" onclick="window.location.href='donetrips.php'">Done</button>
+            <button class="btn" onclick="window.location.href='donetaxi.php'">Done</button>
             <!-- <button class="btn" onclick="window.location.href='../findcar/findcar.php'">Back</button> -->
         </div>
 
@@ -54,9 +54,6 @@ $conn->close();
                     echo "<p><strong>Phone:</strong> <span data-phone>" . htmlspecialchars($row['phone']) . "</span></p>";
                     echo "<p><strong>Address:</strong> <span data-address>" . htmlspecialchars($row['address']) . "</span></p>";
                     echo "<p><strong>Destination:</strong> <span data-destination>" . htmlspecialchars($row['destination']) . "</span></p>";
-                    echo "<p><strong>Start Date:</strong> <span data-st-date>" . htmlspecialchars($row['st_date']) . "</span></p>";
-                    echo "<p><strong>End Date:</strong> <span data-end-date>" . htmlspecialchars($row['end_date']) . "</span></p>";
-                    echo "<p><strong>Remarks:</strong> <span data-remarks>" . htmlspecialchars($row['remakes']) . "</span></p>";
 
                     echo "<div class='btns'>";
                     echo "<button class='btn btn-update' data-id='" . $row['id'] . "' onclick='showUpdateModal(this)'>Update</button>";
@@ -77,9 +74,9 @@ $conn->close();
         <div class="modal-content">
             <span class="close" onclick="closeModal('update-modal')">&times;</span>
             <h2>Update Trip Details</h2>
-            <form id="update-form" onsubmit="updateTrip(event)">
+            <form id="update_form" onsubmit="updateTrip(event)">
                 <input type="hidden" id="update-id" name="id">
-                <label for="update-name">Tourist Name:</label>
+                <label for="update-name">Trip Name:</label>
                 <input type="text" id="update-name" name="name" required>
                 <label for="update-team-number">Team Number:</label>
                 <input type="text" id="update-team-number" name="team_number" required>
@@ -89,12 +86,6 @@ $conn->close();
                 <input type="text" id="update-address" name="address" required>
                 <label for="update-destination">Destination:</label>
                 <input type="text" id="update-destination" name="destination" required>
-                <label for="update-st-date">Start Date:</label>
-                <input type="date" id="update-st-date" name="st_date" required>
-                <label for="update-end-date">End Date:</label>
-                <input type="date" id="update-end-date" name="end_date" required>
-                <label for="update-remarks">Remarks:</label>
-                <textarea id="update-remarks" name="remarks" style="width: 100%; padding: 10px;" rows="4"></textarea>
                 <div style="display: flex; gap:20px">
                     <button type="submit" class="btn-update">Update</button>
                     <button type="button" class="btn-delete" onclick="closeModal('update-modal')">Cancel</button>
@@ -126,9 +117,9 @@ $conn->close();
             <form id="update-form" onsubmit="rateCompanion(event)">
                 <input type="hidden" id="guider-id" name="id">
                 <input type="hidden" id="tourist-email" name="tourist-email">
-                <label for="guider-name">Guider Name:</label>
+                <label for="guider-name">Trip Name:</label>
                 <input type="text" id="guider-name" name="name" readonly required>
-                <label for="guider-email">Guider Email:</label>
+                <label for="guider-email">Email:</label>
                 <input type="text" id="guider-email" name="email" readonly>
                 
                 <!-- Star Rating Section -->
@@ -167,9 +158,6 @@ $conn->close();
         document.getElementById('update-phone').value = card.querySelector('[data-phone]').textContent.trim();
         document.getElementById('update-address').value = card.querySelector('[data-address]').textContent.trim();
         document.getElementById('update-destination').value = card.querySelector('[data-destination]').textContent.trim();
-        document.getElementById('update-st-date').value = card.querySelector('[data-st-date]').textContent.trim();
-        document.getElementById('update-end-date').value = card.querySelector('[data-end-date]').textContent.trim();
-        document.getElementById('update-remarks').value = card.querySelector('[data-remarks]').textContent.trim();
 
         document.getElementById('update-modal').style.display = 'block';
     }
@@ -199,9 +187,9 @@ $conn->close();
 
     function updateTrip(event) {
         event.preventDefault();
-        const formData = new FormData(document.getElementById('update-form'));
+        const formData = new FormData(document.getElementById('update_form'));
 
-        fetch('update_trip.php', {
+        fetch('updatetaxi.php', {
             method: 'POST',
             body: formData,
         })
@@ -220,7 +208,7 @@ $conn->close();
     function deleteTrip() {
         const id = document.getElementById('delete-id').value;
 
-        fetch('delete_trip.php', {
+        fetch('deletetaxiposts.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `id=${encodeURIComponent(id)}`,
@@ -240,6 +228,7 @@ $conn->close();
     function rateCompanion(event) {
         event.preventDefault();
 
+        // Collect form data
         const formData = {
             guider_id: document.getElementById('guider-id').value,
             tourist_email: document.getElementById('tourist-email').value,
@@ -271,6 +260,7 @@ $conn->close();
                 alert('An error occurred while submitting the rating.');
             });
     }
+
 
     document.querySelectorAll('.star').forEach(star => {
         star.addEventListener('click', function() {

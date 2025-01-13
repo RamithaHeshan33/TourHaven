@@ -35,7 +35,7 @@ form {
 label {
     font-weight: 500;
 }
-input[type="text"], input[type="number"], input[type="date"], input[type="email"] , textarea {
+input[type="text"], input[type="number"], input[type="date"], input[type="email"] , select, textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;

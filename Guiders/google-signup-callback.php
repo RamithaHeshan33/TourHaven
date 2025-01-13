@@ -1,5 +1,5 @@
 <?php
-session_start(); // Ensure session is started at the top
+session_start();
 require '../conn.php';
 require '../vendor/autoload.php';
 
@@ -11,11 +11,9 @@ $client->setRedirectUri('http://localhost:3000/Guiders/google-signup-callback.ph
 
 if (isset($_GET['code'])) {
     try {
-        // Exchange authorization code for an access token
         $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
 
         if (!isset($token['error'])) {
-            // Set access token
             $client->setAccessToken($token['access_token']);
 
             // Get user information
@@ -37,34 +35,29 @@ if (isset($_GET['code'])) {
             $result = $stmt->get_result();
 
             if ($result->num_rows == 0) {
-                // New user: store details in session and redirect to signup.php
-                $_SESSION['google_name'] = $name; // Use consistent naming
+                $_SESSION['google_name'] = $name;
                 $_SESSION['google_email'] = $email;
-            
+
                 header("Location: signup.php");
                 exit();
             } else {
-                // Existing user: log them in
                 $user = $result->fetch_assoc();
-                $_SESSION['user_name'] = $user['name']; // Ensure this matches DB column
+                $_SESSION['user_name'] = $user['name'];
                 $_SESSION['email'] = $user['email'];
             
                 header("Location: home/home.php");
                 exit();
             }
         } else {
-            // Token error: Redirect to login with an error message
             header("Location: login.php?message=google_error");
             exit();
         }
     } catch (Exception $e) {
-        // General error handling
         error_log("Google OAuth Error: " . $e->getMessage());
         header("Location: login.php?message=google_error");
         exit();
     }
 } else {
-    // Invalid request: Redirect to login
     header("Location: login.php?message=invalid_request");
     exit();
 }

@@ -11,15 +11,17 @@
     $st_date = $_GET['st_date'] ?? null;
     $end_date = $_GET['end_date'] ?? null;
     $remakes = $_GET['remakes'] ?? null;
+    $vehicle_id = $_GET['vehicle_id'] ?? null;
+    $guider_email = $_GET['guider_email'] ?? null;
     
     // Validate inputs
-    if (!$name || !$tourmail || !$team_number || !$phone || !$address || !$destination || !$st_date || !$end_date) {
+    if (!$name || !$tourmail || !$team_number || !$phone || !$address || !$destination || !$st_date || !$end_date || !$vehicle_id || !$guider_email) {
         echo "All fields are required!";
         exit();
     }
     
-    $sql = "INSERT INTO trip_details (name, tourist_mail, team_number, phone, address, destination, st_date, end_date, remakes)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO trip_details (name, tourist_mail, guider_mail, team_number, phone, address, destination, st_date, end_date, remakes, vehicle_id)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     
     if ($stmt === false) {
@@ -27,7 +29,7 @@
         exit();
     }
     
-    $stmt->bind_param("ssissssss", $name, $tourmail, $team_number, $phone, $address, $destination, $st_date, $end_date, $remakes);
+    $stmt->bind_param("sssissssssi", $name, $tourmail, $guider_email, $team_number, $phone, $address, $destination, $st_date, $end_date, $remakes, $vehicle_id);
     
     if ($stmt->execute()) {
         header('Location: post.php?message=success');

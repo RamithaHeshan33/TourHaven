@@ -1,12 +1,6 @@
 <?php
-session_start();
-if (!isset($_SESSION['email'])) {
-    header('location: ../login.php');
-    exit;
-}
-
-require('../nav.php');
-require('../../conn.php');
+    require '../../conn.php';
+    require '../nav.php';
 ?>
 
 <!DOCTYPE html>
@@ -27,10 +21,8 @@ require('../../conn.php');
                 help during a challenging moment, we’re here to make your travel plans stress-free. Let’s connect you with like-minded
                 travelers and reliable assistance when you need it most.
             </p>
-            <button class="button" onclick="window.location.href='../post/post.php'">Find Guider</button>
-            <button class="button" onclick="window.location.href='../post/tripposts.php'">Your Trips</button>
-            <button class="button" onclick="window.location.href='../post/taxipost.php'">Find Taxi</button>
-            <button class="button" onclick="window.location.href='../post/yourtaxiposts.php'">Your Taxis</button>
+            <button class="button" onclick="window.location.href='tookjobs.php'">Trip Schedules</button>
+            <button class="button" onclick="window.location.href='emergency.php'">Emergency Service</button>
 
         </div>
         <div class="side-img">

@@ -31,7 +31,6 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
 <body>
     <div class="body">
         <?php if (!empty($vehicles)): ?>
-            <!-- Display Vehicle Details -->
             <div class="vehicle-card" id="vehicle-card">
                 <h1>Your Vehicles</h1>
 
@@ -46,20 +45,20 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
                 <!-- <p id="vehicle-type">Type: <?php echo htmlspecialchars($vehicles[0]['vehicle_type']); ?></p> -->
                 <p id="vehicle-description"><?php echo htmlspecialchars($vehicles[0]['description']); ?></p>
 
-                <!-- Action Buttons -->
                 <div class="vehicle-actions">
                     <button id="update-btn">Update</button>
                     <button id="delete-btn">Delete</button>
                 </div>
 
-                <!-- Navigation Buttons -->
                 <div class="navigation-buttons">
                     <button id="prev-btn" disabled>Previous</button>
                     <button id="next-btn" <?php echo count($vehicles) <= 1 ? 'disabled' : ''; ?>>Next</button>
                 </div>
+
+                <h3 id="price" class="price-val">Per KM - Rs. <?php echo htmlspecialchars($vehicles[0]['price']); ?></h3>
             </div>
         <?php else: ?>
-            <!-- No Vehicles Message -->
+            <!-- No Vehicles -->
             <div class="vehicle-image">
                 <h1 class="empty-title">No Vehicles</h1>
                 <img src="../../res/Search-bro.png" alt="search image" class="search-image">
@@ -77,25 +76,25 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
                 <div class="form">
                     <input type="hidden" name="email" value="<?php echo $_SESSION['email']; ?>" readonly>
 
-                    <!-- Vehicle Name -->
                     <label for="vehicle_name">Vehicle Name</label>
                     <input type="text" name="vehicle_name" id="vehicle_name" placeholder="Enter Vehicle Name" required>
 
-                    <!-- Vehicle Type -->
+                    <label for="price">Price per KM(kilo meter) LKR</label>
+                    <input type="number" name="price" id="price" placeholder="Enter Price per KM" required>
+
                     <label for="vehicle_type">Vehicle Type</label>
                     <select name="vehicle_type" id="vehicle_type" required>
                         <option value="" disabled selected>Select Vehicle Type</option>
                         <option value="Car">Car</option>
                         <option value="Van">Van</option>
                         <option value="Bus">Bus</option>
+                        <option value="Wheeler">Wheeler</option>
                         <option value="AC_Bus">A/C Bus</option>
                     </select>
 
-                    <!-- Vehicle Description -->
                     <label for="description">Vehicle Description</label>
                     <textarea name="description" id="description" placeholder="Enter vehicle details (e.g., capacity, features)" rows="4" required></textarea>
 
-                    <!-- Main Image -->
                     <label for="main-image">Vehicle Image</label>
                     <input type="file" name="main-image" id="main-image" accept="image/*" required>
 
@@ -113,12 +112,10 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
             <form action="update-vehicle.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="vehicle_id" id="update-vehicle-id">
 
-                <!-- Primary Image -->
                 <label for="update-main-image">Primary Image</label>
                 <img id="current-main-image" src="" alt="Current Main Image" style="width: 150px; height: auto;">
                 <input type="file" name="main_image" id="update-main-image" accept="image/*">
 
-                <!-- Other Fields -->
                 <label for="update-vehicle-name">Vehicle Name</label>
                 <input type="text" name="vehicle_name" id="update-vehicle-name" required>
 
@@ -132,6 +129,9 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
 
                 <label for="update-description">Description</label>
                 <textarea name="description" id="update-description" rows="4" required></textarea>
+
+                <label for="update-price">Price per KM (LKR)</label>
+                <input type="number" name="price" id="update-price" step="0.01" min="0" required>
 
                 <input type="submit" value="Update Vehicle">
             </form>
@@ -177,6 +177,7 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
         const updateVehicleName = document.getElementById('update-vehicle-name');
         const updateVehicleType = document.getElementById('update-vehicle-type');
         const updateDescription = document.getElementById('update-description');
+        const updatePrice = document.getElementById('update-price');
 
         const deleteVehicleId = document.getElementById('delete-vehicle-id');
 
@@ -188,12 +189,12 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
             vehicleImage.src = vehicle.main_image;
             vehicleName.textContent = vehicle.vehicle_name;
             vehicleDescription.textContent = vehicle.description;
+            document.getElementById('price').textContent = `Per KM - Rs. ${parseFloat(vehicle.price).toFixed(2)}`;
 
             prevBtn.disabled = index === 0;
             nextBtn.disabled = index === vehicles.length - 1;
         }
 
-        // Event Listeners for Navigation
         prevBtn.addEventListener('click', () => {
             if (currentIndex > 0) {
                 currentIndex--;
@@ -208,7 +209,7 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
             }
         });
 
-        // Event Listeners for Update Modal
+
         updateBtn.addEventListener('click', () => {
             const vehicle = vehicles[currentIndex];
 
@@ -216,6 +217,7 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
             updateVehicleName.value = vehicle.vehicle_name;
             updateVehicleType.value = vehicle.vehicle_type;
             updateDescription.value = vehicle.description;
+            updatePrice.value = vehicle.price;
 
             document.getElementById('current-main-image').src = vehicle.main_image;
             updateModal.style.display = 'block';
@@ -226,7 +228,6 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message']) : '';
             updateModal.style.display = 'none';
         });
 
-        // Event Listeners for Delete Modal
         deleteBtn.addEventListener('click', () => {
             const vehicle = vehicles[currentIndex];
             deleteVehicleId.value = vehicle.id;

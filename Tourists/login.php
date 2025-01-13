@@ -11,14 +11,12 @@
     $client->addScope('email');
     $client->addScope('profile');
 
-    // Google Login URL
     $google_login_url = $client->createAuthUrl();
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $conn->real_escape_string($_POST['email']);
         $password = $_POST['password'];
-    
-        // Fetch user data
+
         $query = $conn->query("SELECT * FROM tourists WHERE email='$email'");
         if ($query->num_rows > 0) {
             $user = $query->fetch_assoc();

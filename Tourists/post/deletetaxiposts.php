@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $query = "DELETE FROM trip_details WHERE id = ?";
+    $query = "DELETE FROM emergency WHERE id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
 

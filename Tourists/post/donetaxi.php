@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($id) {
         // Update query
-        $updateQuery = "UPDATE trip_details SET status = 'Done' WHERE id = ?";
+        $updateQuery = "UPDATE emergency SET status = 'Done' WHERE id = ?";
         $stmt = $conn->prepare($updateQuery);
         $stmt->bind_param("i", $id);
 
@@ -29,13 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-// Fetch completed jobs
-$guider_email = $_SESSION['email'] ?? '';
-$completedJobsQuery = "SELECT * FROM trip_details WHERE tourist_mail = ? AND status = 'Done'";
-$stmt = $conn->prepare($completedJobsQuery);
-$stmt->bind_param("s", $guider_email);
+$tourist_email = $_SESSION['email'];
+
+$trippost = "SELECT td.*, g.name AS gname, g.phone AS gphone FROM emergency td 
+             LEFT JOIN guiders g ON td.guider_mail = g.email 
+             WHERE status ='Done' AND tourist_mail = ?";
+$stmt = $conn->prepare($trippost);
+$stmt->bind_param("s", $tourist_email);
 $stmt->execute();
 $result = $stmt->get_result();
+$stmt->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -49,21 +53,18 @@ $result = $stmt->get_result();
 <body>
     <div class="container">
         <div class="top">
-            <h1>Completed Trip</h1>
-            <button class="btn" onclick="window.location.href='tripposts.php'">Back</button>
+            <h1>Completed Taxi Roots</h1>
+            <button class="btn" onclick="window.location.href='yourtaxiposts.php'">Back</button>
         </div>
 
         <table>
             <thead>
                 <tr>
-                    <th>Client Name</th>
+                    <!-- <th>Client Name</th> -->
                     <th>Team Number</th>
                     <th>Phone</th>
                     <th>Address</th>
                     <th>Destination</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Remarks</th>
                     <th>Created At</th>
                 </tr>
             </thead>
@@ -71,14 +72,11 @@ $result = $stmt->get_result();
                 <?php if ($result->num_rows > 0): ?>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
-                            <td data-cell="Name"><?php echo htmlspecialchars($row['name']); ?></td>
+                            <!-- <td data-cell="Name"><?php echo htmlspecialchars($row['name']); ?></td> -->
                             <td data-cell="Team Number"><?php echo htmlspecialchars($row['team_number']); ?></td>
                             <td data-cell="Phone"><?php echo htmlspecialchars($row['phone']); ?></td>
                             <td data-cell="Address"><?php echo htmlspecialchars($row['address']); ?></td>
                             <td data-cell="Destination"><?php echo htmlspecialchars($row['destination']); ?></td>
-                            <td data-cell="Start Date"><?php echo htmlspecialchars($row['st_date']); ?></td>
-                            <td data-cell="End Date"><?php echo htmlspecialchars($row['end_date']); ?></td>
-                            <td data-cell="Remakes"><?php echo htmlspecialchars($row['remakes']); ?></td>
                             <td data-cell="Posted Date"><?php echo htmlspecialchars($row['created_at']); ?></td>
                         </tr>
                     <?php endwhile; ?>
@@ -113,8 +111,3 @@ $result = $stmt->get_result();
     </script>
 </body>
 </html>
-
-<?php
-$stmt->close();
-$conn->close();
-?>

@@ -9,75 +9,26 @@ require '../../conn.php';
 require '../nav.php';
 $guider_email = $_SESSION['email'];
 
-// Fetching guider's city
+// Fetching guider's data
 $cityQuery = "SELECT city FROM guiders WHERE email = ?";
 $stmt = $conn->prepare($cityQuery);
-
-if (!$stmt) {
-    die("City query prepare failed: " . $conn->error);
-}
-
 $stmt->bind_param("s", $guider_email);
 $stmt->execute();
 $cityResult = $stmt->get_result();
 $guiderCity = $cityResult->fetch_assoc()['city'];
 $stmt->close();
 
-// Fetching the guider's vehicle IDs
-$vehicleQuery = "SELECT * FROM vehicles WHERE email = ?";
-$stmt = $conn->prepare($vehicleQuery);
-
-if (!$stmt) {
-    die("Vehicle query prepare failed: " . $conn->error);
-}
-
-$stmt->bind_param("s", $guider_email);
+// Fetching trip details
+$sql = "SELECT * FROM emergency WHERE guider_mail IS NULL AND address LIKE ?";
+$stmt = $conn->prepare($sql);
+$searchKeyword = "%" . $guiderCity . "%";
+$stmt->bind_param("s", $searchKeyword);
 $stmt->execute();
-$vehicleResult = $stmt->get_result();
-$vehicleIds = [];
-while ($row = $vehicleResult->fetch_assoc()) {
-    $vehicleIds[] = $row['id'];
-}
+$result = $stmt->get_result();
+
 $stmt->close();
-
-if (!empty($vehicleIds)) {
-    $placeholders = implode(',', array_fill(0, count($vehicleIds), '?'));
-    $sql = "
-        SELECT 
-            trip_details.*, 
-            vehicles.vehicle_name AS vehicle_name 
-        FROM 
-            trip_details 
-        LEFT JOIN 
-            vehicles 
-        ON 
-            trip_details.vehicle_id = vehicles.id 
-        WHERE 
-            guider_mail IS NULL AND 
-            address LIKE ? AND 
-            vehicle_id IN ($placeholders)
-    ";
-    $stmt = $conn->prepare($sql);
-
-    if (!$stmt) {
-        die("Trip query prepare failed: " . $conn->error);
-    }
-
-    $searchKeyword = "%" . $guiderCity . "%";
-    $types = str_repeat('s', count($vehicleIds) + 1);
-    $stmt->bind_param($types, $searchKeyword, ...$vehicleIds);
-
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
-} else {
-    $result = null;
-}
-
-
 $conn->close();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,7 +41,8 @@ $conn->close();
 <body>
     <div class="body">
         <h2>Trip Details</h2>
-        <button class="btn" onclick="window.location.href='tookjobs.php'">Took Trips</button>
+        <button class="btn" onclick="window.location.href='tooktaxis.php'">Took Jobs</button>
+        
         <div class="card-container">
             <?php
                 if ($result->num_rows > 0) {
@@ -105,10 +57,8 @@ $conn->close();
                         echo "<p><strong>Phone:</strong> " . htmlspecialchars($row['phone']) . "</p>";
                         echo "<p><strong>Address:</strong> " . $startAddress . "</p>";
                         echo "<p><strong>Destination:</strong> " . $endDestination . "</p>";
-                        echo "<p><strong>Start Date:</strong> " . htmlspecialchars($row['st_date']) . "</p>";
-                        echo "<p><strong>End Date:</strong> " . htmlspecialchars($row['end_date']) . "</p>";
-                        echo "<p><strong>Remarks:</strong> " . htmlspecialchars($row['remakes']) . "</p>";
-                        echo "<p><strong>Selected Vehicle:</strong> " . htmlspecialchars($row['vehicle_name']) . "</p>";
+                        echo "<p><strong>Posted At:</strong> " . htmlspecialchars($row['created_at']) . "</p>";
+                        echo "<p><strong>Vehicle Type:</strong> " . htmlspecialchars($row['vehicle_type']) . "</p>";
                         echo "<button class='btn btn-primary' data-id='$cardId' onclick='showModal(this)'>Take This Job</button>";
                         echo "</div>";
                         echo "<div id='map-$cardId' class='map'></div>";
@@ -147,7 +97,7 @@ $conn->close();
 
         document.getElementById('confirmButton').addEventListener('click', function () {
             if (selectedJobId) {
-                fetch('take_job.php', {
+                fetch('take_taxi.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -156,7 +106,7 @@ $conn->close();
                 }).then(response => response.json()).then(data => {
                     if (data.success) {
                         alert('Job successfully taken!');
-                        window.location.href = 'tookjobs.php';
+                        window.location.href = 'tooktaxis.php';
                     } else {
                         alert('Failed to take the job. Please try again.');
                     }
@@ -210,5 +160,9 @@ $conn->close();
 
         window.onload = initMap;
     </script>
+
+    <style>
+        
+    </style>
 </body>
 </html>
