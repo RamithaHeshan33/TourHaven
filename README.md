@@ -4,13 +4,19 @@ TourHaven is a web application that connects tourists with local guiders.
 
 ## Features
 
-- User registration and login for tourists and guiders.
-- Tourists can search for guiders/cars.
-- Tourists can post trip requests and manage them.
-- Tourists can make payments and rate guiders/trips.
-- Guiders can manage their vehicles.
-- Guiders can find and accept job/taxi requests.
-- Guiders can manage their accepted jobs and update job statuses.
+- User registration and login for both tourists and guiders.
+- Tourist functionalities:
+    - Search for guiders, cars, and taxis.
+    - Post trip and taxi requests.
+    - Manage posted trip and taxi requests.
+    - Make payments for services.
+    - Rate guiders, trips, or taxi services.
+- Guider functionalities:
+    - Manage their vehicles.
+    - Find and accept job and taxi requests.
+    - Manage accepted jobs and taxi services, including updating their statuses.
+- Payment processing system.
+- Rating system for guiders, trips, and taxi services.
 
 ## Technologies
 
